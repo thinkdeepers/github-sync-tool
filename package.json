@@ -1,0 +1,42 @@
+{
+  "name": "github-sync-tool",
+  "productName": "GitHub同步助手",
+  "version": "1.0.0",
+  "description": "登录 GitHub，选择仓库与分支，绑定本地文件夹，双向自动同步",
+  "main": "src/main.js",
+  "author": "thinkdeepers",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win nsis",
+    "dist:portable": "electron-builder --win portable"
+  },
+  "dependencies": {
+    "chokidar": "^3.6.0"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "build": {
+    "appId": "com.thinkdeepers.githubsync",
+    "productName": "GitHub同步助手",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "src/**/*",
+      "renderer/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": ["nsis"]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    }
+  }
+}

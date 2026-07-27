@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'" />
+  <title>GitHub同步助手</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 登录页 -->
+  <div id="view-login" class="view">
+    <div class="login-card">
+      <div class="logo">⇄</div>
+      <h1>GitHub同步助手</h1>
+      <p class="sub">本地文件夹 与 GitHub 分支 双向自动同步</p>
+      <input id="token-input" type="password" placeholder="粘贴 GitHub Personal Access Token" />
+      <button id="btn-login" class="primary">登 录</button>
+      <p id="login-err" class="err"></p>
+      <button id="btn-token-help" class="link">没有 Token？点这里去 GitHub 创建（勾选 repo 权限）</button>
+    </div>
+  </div>
+
+  <!-- 主页 -->
+  <div id="view-main" class="view hidden">
+    <header>
+      <div class="brand">⇄ GitHub同步助手</div>
+      <div class="head-right">
+        <span id="poll-label" class="muted"></span>
+        <span id="user-label"></span>
+        <button id="btn-logout" class="ghost small">退出登录</button>
+      </div>
+    </header>
+
+    <main>
+      <div class="toolbar">
+        <h2>同步任务</h2>
+        <button id="btn-add" class="primary">＋ 新建同步</button>
+      </div>
+      <div id="task-list"></div>
+      <div id="empty-hint" class="empty hidden">
+        还没有同步任务。点击右上角「新建同步」，选择仓库 → 分支 → 本地文件夹即可开始。
+      </div>
+    </main>
+
+    <section class="log-panel">
+      <div class="log-head">运行日志</div>
+      <div id="log-box"></div>
+    </section>
+  </div>
+
+  <!-- 新建同步向导 -->
+  <div id="wizard" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-head">
+        <span id="wizard-title">新建同步 · 第 1 步：选择仓库</span>
+        <button id="wizard-close" class="ghost small">✕</button>
+      </div>
+
+      <div id="wz-step1" class="wz-step">
+        <input id="repo-filter" placeholder="搜索仓库..." />
+        <div id="repo-list" class="pick-list"><div class="muted pad">加载中...</div></div>
+      </div>
+
+      <div id="wz-step2" class="wz-step hidden">
+        <div class="chosen" id="chosen-repo"></div>
+        <div id="branch-list" class="pick-list"><div class="muted pad">加载中...</div></div>
+        <div class="newbranch-row">
+          <input id="new-branch-name" placeholder="或输入新分支名（将基于默认分支创建）" />
+          <button id="btn-new-branch" class="ghost">用新分支</button>
+        </div>
+      </div>
+
+      <div id="wz-step3" class="wz-step hidden">
+        <div class="chosen" id="chosen-summary"></div>
+        <div class="folder-row">
+          <input id="folder-display" placeholder="尚未选择本地文件夹" readonly />
+          <button id="btn-pick-folder" class="ghost">浏览...</button>
+        </div>
+        <p class="muted tip">
+          · 空文件夹：自动下载分支全部内容<br />
+          · 非空文件夹：自动初始化并与分支内容合并（同名冲突以本地文件为准）<br />
+          · 每个文件夹只能绑定一个分支
+        </p>
+        <button id="btn-create" class="primary wide">开始同步</button>
+        <p id="wizard-err" class="err"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
